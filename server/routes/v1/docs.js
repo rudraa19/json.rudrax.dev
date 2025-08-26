@@ -60,4 +60,25 @@ docsRouter.post("/save", authUser, async (req, res) => {
     }
 })
 
+docsRouter.get("/:id", async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).json({ msg: "Invalid document ID!" });
+        }
+
+        const doc = await DocsModel.findOne({ _id: id });
+
+        if (!doc) {
+            return res.status(404).json({ msg: "Doc not found!" });
+        }
+
+        return res.status(200).json(doc.content);
+    } catch (err) {
+        console.log(err);
+        return res.status(500).json({ msg: "Internal server error!" });
+    }
+})
+
 export default docsRouter;
