@@ -27,6 +27,17 @@ docsRouter.post("/", authUser, async (req, res) => {
     }
 })
 
+docsRouter.get("/", authUser, async (req, res) => {
+    try {
+        const docs = await DocsModel.find({ userId: req.userId }, { _id: 1, name: 1 });
+        const formattedDocs = docs.map(d => ({ docId: d._id, name: d.name }));
+        return res.status(200).json({ docs: formattedDocs });
+    } catch (err) {
+        console.log(err);
+        return res.status(500).json({ msg: "Internal server error!" });
+    }
+})
+
 docsRouter.patch("/:id", authUser, async (req, res) => {
     try {
         const { docName, content } = req.body;
