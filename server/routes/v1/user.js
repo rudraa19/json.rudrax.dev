@@ -2,6 +2,7 @@ import { Router } from "express";
 import UserModel from "../../models/index.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import authUser from "../../middlewares/authUser.js";
 
 const SALT_ROUND = parseInt(process.env.SALT_ROUND);
 const JWT_SECRET = process.env.JWT_SECRET;
@@ -20,7 +21,7 @@ userRouter.post("/signup", async (req, res) => {
             $or: [{ username }, { email }]
         });
         if (userExists) {
-            return res.status(400).json({ msg: "User already exists!" });
+            return res.status(409).json({ msg: "User already exists!" });
         }
 
         const newPassword = await bcrypt.hash(password, SALT_ROUND);
@@ -53,13 +54,24 @@ userRouter.post("/signin", async (req, res) => {
         const passwordMatch = bcrypt.compare(password, user.password);
 
         if (!passwordMatch) {
-            return res.status(400).json({ msg: "Wrong username or Password!" });
+            return res.status(401).json({ msg: "Wrong username or Password!" });
         }
 
         const token = jwt.sign({ id: user._id }, JWT_SECRET);
 
         return res.status(200).json({
             token
+        })
+    } catch (err) {
+        console.log(err);
+        return res.status(500).json({ msg: "Internal server error!" });
+    }
+})
+
+userRouter.get("/", authUser, async (req, res) => {
+    try {
+        return res.status(200).json({
+            isLoggedIn: true
         })
     } catch (err) {
         console.log(err);
