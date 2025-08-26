@@ -2,10 +2,11 @@ import { Router } from "express";
 import authUser from "../../middlewares/authUser.js";
 import { DocsModel } from "../../models/index.js";
 import jsonlint from "jsonlint";
+import mongoose from "mongoose";
 
 const docsRouter = Router();
 
-docsRouter.post("/new", authUser, async (req, res) => {
+docsRouter.post("/", authUser, async (req, res) => {
     try {
         const { docName } = req.body;
 
@@ -26,9 +27,10 @@ docsRouter.post("/new", authUser, async (req, res) => {
     }
 })
 
-docsRouter.post("/save", authUser, async (req, res) => {
+docsRouter.patch("/:id", authUser, async (req, res) => {
     try {
-        const { docId, docName, content } = req.body;
+        const { docName, content } = req.body;
+        const { id: docId } = req.params;
 
         if (!docId || !docName || content === undefined) {
             return res.status(400).json({ msg: "All fields are required!" });
