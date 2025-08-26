@@ -83,4 +83,25 @@ docsRouter.get("/:id", async (req, res) => {
     }
 })
 
+docsRouter.delete("/:id", authUser, async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).json({ msg: "Invalid document ID!" });
+        }
+
+        const doc = await DocsModel.findOneAndDelete({ _id: id, userId: req.userId });
+
+        if (!doc) {
+            return res.status(404).json({ msg: "Document not found or you don't have permission!" });
+        }
+
+        return res.status(200).json({ msg: "Document deleted successfully!" });
+    } catch (err) {
+        console.log(err);
+        return res.status(500).json({ msg: "Internal server error!" });
+    }
+})
+
 export default docsRouter;
