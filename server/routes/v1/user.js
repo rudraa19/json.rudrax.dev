@@ -1,5 +1,5 @@
 import { Router } from "express";
-import UserModel from "../../models/index.js";
+import { UserModel, DocsModel } from "../../models/index.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import authUser from "../../middlewares/authUser.js";
@@ -73,6 +73,17 @@ userRouter.get("/", authUser, async (req, res) => {
         return res.status(200).json({
             isLoggedIn: true
         })
+    } catch (err) {
+        console.log(err);
+        return res.status(500).json({ msg: "Internal server error!" });
+    }
+})
+
+userRouter.get("/docs", authUser, async (req, res) => {
+    try {
+        const docs = await DocsModel.find({ userId: req.userId }, { _id: 1, name: 1 });
+        const formattedDocs = docs.map(d => ({ docId: d._id, name: d.name }));
+        return res.status(200).json({ docs: formattedDocs });
     } catch (err) {
         console.log(err);
         return res.status(500).json({ msg: "Internal server error!" });

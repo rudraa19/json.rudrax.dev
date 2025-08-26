@@ -1,6 +1,6 @@
 import { Router } from "express";
 import authUser from "../../middlewares/authUser.js";
-import DocsModel from "../../models/docs.js";
+import { DocsModel } from "../../models/index.js";
 import jsonlint from "jsonlint";
 
 const docsRouter = Router();
