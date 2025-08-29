@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { Button } from "../components/ui/button"
 import {
     Card,
@@ -11,8 +11,30 @@ import {
 } from "../components/ui/card"
 import { Input } from "../components/ui/input"
 import { Label } from "../components/ui/label"
+import { client } from "../../config.js"
+import { useState } from "react"
 
 const SignupForm = () => {
+
+    const [email, setEmail] = useState();
+    const [username, setUsername] = useState();
+    const [password, setPassword] = useState();
+    const navigate = useNavigate();
+
+    async function signup() {
+        try {
+            await client.post("/v1/user/signup", {
+                email,
+                username,
+                password
+            });
+            alert("Signup successful!");
+            navigate("/login");
+        } catch (err) {
+            alert("Error during signup: ", err);
+        }
+    }
+
     return (
         <Card className="w-full max-w-sm">
             <CardHeader>
@@ -25,13 +47,14 @@ const SignupForm = () => {
                 </CardAction>
             </CardHeader>
             <CardContent>
-                <form>
+                <form onSubmit={signup}>
                     <div className="flex flex-col gap-6">
                         <div className="grid gap-2">
                             <Label htmlFor="email">Email</Label>
                             <Input
                                 id="email"
                                 type="email"
+                                onInput={e => setEmail(e.target.value)}
                                 placeholder="email@example.com"
                                 required
                             />
@@ -41,6 +64,7 @@ const SignupForm = () => {
                             <Input
                                 id="username"
                                 type="text"
+                                onInput={e => setUsername(e.target.value)}
                                 placeholder="user123"
                                 required
                             />
@@ -55,14 +79,14 @@ const SignupForm = () => {
                                     Forgot your password?
                                 </a> */}
                             </div>
-                            <Input id="password" type="password" required />
+                            <Input id="password" type="password" onInput={e => setPassword(e.target.value)} required />
                         </div>
                     </div>
                 </form>
             </CardContent>
             <CardFooter className="flex-col gap-2">
-                <Button type="submit" className="w-full">
-                    Login
+                <Button type="submit" className="w-full" onClick={() => signup()}>
+                    Singup
                 </Button>
             </CardFooter>
         </Card>

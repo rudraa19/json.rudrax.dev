@@ -1,7 +1,7 @@
 import { Router } from "express";
 import authUser from "../../middlewares/authUser.js";
 import { DocsModel } from "../../models/index.js";
-import jsonlint from "jsonlint";
+import jsonlint from "@prantlf/jsonlint";
 import mongoose from "mongoose";
 
 const docsRouter = Router();
