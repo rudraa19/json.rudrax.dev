@@ -1,17 +1,17 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import './App.css'
 import Layout from './components/Layout'
-import LoginForm from './components/LoginForm'
-import SignupForm from './components/SignupForm'
 import DocCared from './components/DocCard'
+import Signup from './pages/Signup'
+import Login from './pages/Login'
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path='/' element={<Layout />}></Route>
-        <Route path='/login' element={<LoginForm />}></Route>
-        <Route path='/signup' element={<SignupForm />}></Route>
+        <Route path='/login' element={<Login />}></Route>
+        <Route path='/signup' element={<Signup />}></Route>
         <Route path='/docs' element={<DocCared />}></Route>
       </Routes>
     </BrowserRouter>
