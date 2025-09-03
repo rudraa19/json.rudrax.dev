@@ -29,7 +29,10 @@ export function UserDropdown({ username = "Unknown" }) {
                 <DropdownMenuSeparator />
                 <DropdownMenuItem>GitHub</DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem>
+                <DropdownMenuItem onClick={() => {
+                    localStorage.removeItem('token');
+                    window.location.reload();
+                }}>
                     Log out
                 </DropdownMenuItem>
             </DropdownMenuContent>
