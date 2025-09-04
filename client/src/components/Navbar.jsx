@@ -26,6 +26,21 @@ const Navbar = () => {
         }
         fetchUser();
     }, [])
+
+    async function newDoc() {
+        try {
+            const res = await client.post("/v1/docs/", {
+                docName: `Untitled (${new Date().toLocaleString()})`
+            }, {
+                headers: { token }
+            });
+            window.location.href = `/doc/${res.data.docId}`;
+        } catch (err) {
+            console.log(err);
+            alert("Error creating new bin");
+        }
+    }
+
     return (
         <div className="fixed top-0 left-0 w-full px-4 py-2 border-b bg-white z-10">
             <div className="flex justify-between items-center mx-4">
@@ -45,7 +60,10 @@ const Navbar = () => {
                             </Button>
                         </Link>
                     </>)}
-                    {isLoggedIn && <UserDropdown username={username} />}
+                    {isLoggedIn && <>
+                        <Button variant="outline" onClick={newDoc}>+ NEW</Button>
+                        <UserDropdown username={username} />
+                    </>}
                 </div>
             </div>
         </div>

@@ -16,7 +16,7 @@ docsRouter.post("/", authUser, async (req, res) => {
 
         const newDoc = await DocsModel.create({
             name: docName,
-            content: "",
+            content: "{\n \n}",
             userId: req.userId
         });
 
@@ -72,6 +72,34 @@ docsRouter.patch("/:id", authUser, async (req, res) => {
         return res.status(500).json({ msg: "Internal server error!" });
     }
 })
+
+docsRouter.get("/editor/:id", authUser, async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).json({ msg: "Invalid document ID!" });
+        }
+
+        const doc = await DocsModel.findOne(
+            { _id: id, userId: req.userId },
+        );
+
+        if (!doc) {
+            return res.status(404).json({ msg: "Document not found or you don't have permission!" });
+        }
+
+        return res.status(200).json({
+            docId: doc._id,
+            title: doc.name,
+            content: doc.content
+        });
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({ msg: "Internal server error!" });
+    }
+});
+
 
 docsRouter.get("/:id", async (req, res) => {
     try {
