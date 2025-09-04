@@ -57,7 +57,7 @@ userRouter.post("/signin", async (req, res) => {
             return res.status(401).json({ msg: "Wrong username or Password!" });
         }
 
-        const token = jwt.sign({ id: user._id }, JWT_SECRET);
+        const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: "1d", algorithm: 'HS256' });
 
         return res.status(200).json({
             token
