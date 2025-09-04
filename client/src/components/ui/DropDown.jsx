@@ -9,7 +9,7 @@ import {
     DropdownMenuTrigger,
 } from "../..//components/ui/dropdown-menu"
 
-export function UserDropdown({ username = "Unknown" }) {
+export function UserDropdown({ username = "Loading..." }) {
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>

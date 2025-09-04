@@ -70,8 +70,10 @@ userRouter.post("/signin", async (req, res) => {
 
 userRouter.get("/", authUser, async (req, res) => {
     try {
+        const result = await UserModel.findOne({ _id: req.userId });
         return res.status(200).json({
-            isLoggedIn: true
+            isLoggedIn: true,
+            username: result.username
         })
     } catch (err) {
         console.log(err);

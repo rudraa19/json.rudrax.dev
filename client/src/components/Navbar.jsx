@@ -7,6 +7,7 @@ import { useToken } from "@/utils/useToken.jsx";
 
 const Navbar = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [username, setUsername] = useState();
     const token = useToken();
     useEffect(() => {
         async function fetchUser() {
@@ -14,7 +15,10 @@ const Navbar = () => {
                 headers: { token }
             });
             try {
-                if (res.data.isLoggedIn == true) setIsLoggedIn(true);
+                if (res.data.isLoggedIn == true) {
+                    setIsLoggedIn(true);
+                    setUsername(res.data.username);
+                }
             } catch (err) {
                 console.log(err);
                 alert("Error fetching user data");
@@ -26,7 +30,7 @@ const Navbar = () => {
         <div className="fixed top-0 left-0 w-full px-4 py-2 border-b bg-white z-10">
             <div className="flex justify-between items-center mx-4">
                 <Link to="/" className="font-bold text-2xl">
-                    <span className="text-[28px]">{`{` + "JSON" + `}`}</span>.rudrax.dev
+                    <span className="text-[28px]">{`{JSON}`}</span>.rudrax.dev
                 </Link>
                 <div className="flex gap-2">
                     {!isLoggedIn && (<>
@@ -41,7 +45,7 @@ const Navbar = () => {
                             </Button>
                         </Link>
                     </>)}
-                    {isLoggedIn && <UserDropdown />}
+                    {isLoggedIn && <UserDropdown username={username} />}
                 </div>
             </div>
         </div>
