@@ -1,21 +1,21 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import './App.css'
 import Layout from './components/Layout'
-import DocCared from './components/DocCard'
 import Signup from './pages/Signup'
 import Login from './pages/Login'
 import Document from './pages/Document'
+import AllDocs from './pages/AllDocs'
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path='/' element={<Layout />}>
-          <Route path='/doc/:id' element={<Document />}></Route>
+          <Route path='/docs/:id' element={<Document />}></Route>
+          <Route path='/docs' element={<AllDocs />}></Route>
         </Route>
         <Route path='/login' element={<Login />}></Route>
         <Route path='/signup' element={<Signup />}></Route>
-        <Route path='/docs' element={<DocCared />}></Route>
       </Routes>
     </BrowserRouter>
   )
