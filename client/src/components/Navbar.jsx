@@ -34,7 +34,7 @@ const Navbar = () => {
             }, {
                 headers: { token }
             });
-            window.location.href = `/doc/${res.data.docId}`;
+            window.location.href = `/docs/${res.data.docId}`;
         } catch (err) {
             console.log(err);
             alert("Error creating new bin");
