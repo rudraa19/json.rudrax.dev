@@ -30,7 +30,7 @@ const AllDocs = () => {
                 const res = await client.get("/v1/docs/", {
                     headers: { token }
                 })
-                setDocs(res.data.docs);
+                setDocs((res.data.docs).reverse());
             } catch (err) {
                 console.log(err);
                 alert("Error loading docs: ", err);
@@ -41,11 +41,12 @@ const AllDocs = () => {
     }, [])
 
     return (
-        <div>
-            {
-                docs.map(id => <DocCared id={id.docId} name={id.name} key={id.docId} />)
-            }
-        </div>);
+        <div className="flex flex-col items-center w-full">
+            {docs.map((doc) => (
+                <DocCared id={doc.docId} name={doc.name} key={doc.docId} />
+            ))}
+        </div>
+    );
 }
 
 export default AllDocs;

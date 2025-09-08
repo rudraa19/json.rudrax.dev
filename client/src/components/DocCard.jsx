@@ -20,8 +20,8 @@ const DocCared = ({ id = "123abc", name = "Untitled" }) => {
     return (
         <>
             <Link to={id}>
-                <Card className="max-w-[800px] m-1 p-3 flex-row items-center justify-between">
-                    {name}
+                <Card className="w-[800px] m-1 p-3 flex flex-row items-center justify-between">
+                    <b>{name}</b>
                     <Button variant="destructive" className="cursor-pointer" onClick={(e) => { e.preventDefault(); e.stopPropagation(); handleDelete(id); }}>
                         Delete
                     </Button>
