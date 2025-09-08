@@ -6,7 +6,7 @@ import "ace-builds/src-noconflict/mode-json";
 import "ace-builds/src-noconflict/theme-eclipse";
 import { client } from "../../config";
 import { useToken } from "@/utils/useToken";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 ace.config.setModuleUrl(
     "ace/mode/json_worker",
@@ -67,6 +67,7 @@ const Document = () => {
             });
 
             alert("Document saved!");
+            window.location.reload();
         } catch (e) {
             alert("Invalid JSON: " + e.message);
         }
@@ -74,6 +75,7 @@ const Document = () => {
 
     return (
         <div className="flex flex-col gap-4 max-w-6xl mx-auto">
+            <Link className="cursor-pointer hover:underline" to="/docs">{"<-back"}</Link>
             <div className="flex items-center">
                 {isEditingTitle ? (
                     <input

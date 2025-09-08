@@ -24,6 +24,9 @@ export function UserDropdown({ username = "Loading..." }) {
                     <DropdownMenuItem>
                         Settings
                     </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => { window.location.href = "/docs" }}>
+                        My Docs
+                    </DropdownMenuItem>
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
                 <DropdownMenuSeparator />
@@ -31,7 +34,7 @@ export function UserDropdown({ username = "Loading..." }) {
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={() => {
                     localStorage.removeItem('token');
-                    window.location.reload();
+                    window.location.href = "/";
                 }}>
                     Log out
                 </DropdownMenuItem>
