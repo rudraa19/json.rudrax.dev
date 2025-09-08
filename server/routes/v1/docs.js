@@ -58,7 +58,7 @@ docsRouter.patch("/:id", authUser, async (req, res) => {
 
         const doc = await DocsModel.findOneAndUpdate(
             { _id: docId },
-            { docName, content },
+            { name: docName, content },
             { new: true, runValidators: true }
         );
 
