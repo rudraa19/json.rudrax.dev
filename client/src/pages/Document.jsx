@@ -126,7 +126,6 @@ const Document = () => {
 
             <div>
                 This doc is available at: <a className="underline font-medium" href={`${API_URL}v1/docs/${docId}`} target="_blank">{`${API_URL}v1/docs/${docId}`}</a>
-                {/* This doc availabel at <a href={API_URL + "v1/docs/" + docId} target="_blank">{API_URL + "v1/docs/" + docId}</a> */}
             </div>
         </div>
     );

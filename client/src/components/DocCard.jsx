@@ -4,7 +4,7 @@ import { Button } from "./ui/button";
 import { client } from "../../config";
 import { useToken } from "@/utils/useToken";
 
-const DocCared = ({ id = "123abc", name = "Untitled" }) => {
+const DocCard = ({ id = "123abc", name = "Untitled" }) => {
     const token = useToken();
     async function handleDelete(id) {
         try {
@@ -12,6 +12,7 @@ const DocCared = ({ id = "123abc", name = "Untitled" }) => {
                 headers: { token }
             });
             alert("Doc deleted successfully!");
+            window.location.reload();
         } catch (err) {
             alert("Error occured during deleting doc!");
             console.log(err);
@@ -31,4 +32,4 @@ const DocCared = ({ id = "123abc", name = "Untitled" }) => {
     );
 }
 
-export default DocCared;
+export default DocCard;

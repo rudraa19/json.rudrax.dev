@@ -1,4 +1,4 @@
-import DocCared from "@/components/DocCard";
+import DocCard from "@/components/DocCard";
 import { client } from "../../config";
 import { useEffect, useState } from "react";
 import { useToken } from "@/utils/useToken";
@@ -43,7 +43,7 @@ const AllDocs = () => {
     return (
         <div className="flex flex-col items-center w-full">
             {docs.map((doc) => (
-                <DocCared id={doc.docId} name={doc.name} key={doc.docId} />
+                <DocCard id={doc.docId} name={doc.name} key={doc.docId} />
             ))}
         </div>
     );

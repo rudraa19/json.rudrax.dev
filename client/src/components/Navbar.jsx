@@ -61,7 +61,9 @@ const Navbar = () => {
                         </Link>
                     </>)}
                     {isLoggedIn && <>
-                        <Button variant="outline" onClick={newDoc}>+ NEW</Button>
+                        <Link to="/new">
+                            <Button variant="outline">+ NEW</Button>
+                        </Link>
                         <UserDropdown username={username} />
                     </>}
                 </div>
