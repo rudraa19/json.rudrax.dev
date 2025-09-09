@@ -115,7 +115,7 @@ docsRouter.get("/:id", async (req, res) => {
             return res.status(404).json({ msg: "Doc not found!" });
         }
 
-        return res.status(200).json(doc.content);
+        return res.status(200).json(JSON.parse(doc.content));
     } catch (err) {
         console.log(err);
         return res.status(500).json({ msg: "Internal server error!" });
