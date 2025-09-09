@@ -4,7 +4,7 @@ import AceEditor from "react-ace";
 import ace from "ace-builds/src-noconflict/ace";
 import "ace-builds/src-noconflict/mode-json";
 import "ace-builds/src-noconflict/theme-eclipse";
-import { client } from "../../config";
+import { API_URL, client } from "../../config";
 import { useToken } from "@/utils/useToken";
 import { Link, useParams } from "react-router-dom";
 
@@ -123,6 +123,11 @@ const Document = () => {
             <Button onClick={handleSave} className="self-start">
                 Save
             </Button>
+
+            <div>
+                This doc is available at: <a className="underline font-medium" href={`${API_URL}v1/docs/${docId}`} target="_blank">{`${API_URL}v1/docs/${docId}`}</a>
+                {/* This doc availabel at <a href={API_URL + "v1/docs/" + docId} target="_blank">{API_URL + "v1/docs/" + docId}</a> */}
+            </div>
         </div>
     );
 };
