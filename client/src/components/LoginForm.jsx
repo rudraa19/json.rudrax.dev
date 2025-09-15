@@ -11,16 +11,26 @@ import {
 } from "../components/ui/card"
 import { Input } from "../components/ui/input"
 import { Label } from "../components/ui/label"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { client } from "../../config.js"
 
 const LoginForm = () => {
 
     const [username, setUsername] = useState();
     const [password, setPassword] = useState();
+    const [isClicked, setIsClicked] = useState(false);
     const navigate = useNavigate();
 
+    useEffect(() => {
+        if (isClicked) {
+            document.body.style.cursor = "wait"
+        } else {
+            document.body.style.cursor = "inherit"
+        }
+    }, [isClicked])
+
     async function login() {
+        setIsClicked(true);
         try {
             const res = await client.post("/v1/user/signin", {
                 username,
@@ -32,6 +42,7 @@ const LoginForm = () => {
         } catch (err) {
             alert("Erro during login: ", err);
         }
+        setIsClicked(false);
     }
 
     return (
@@ -74,7 +85,7 @@ const LoginForm = () => {
                 </form>
             </CardContent>
             <CardFooter className="flex-col gap-2">
-                <Button type="submit" className="w-full" onClick={() => login()}>
+                <Button type="submit" className="w-full" style={{ opacity: isClicked ? 0.5 : 1 }} onClick={() => login()}>
                     Login
                 </Button>
             </CardFooter>
