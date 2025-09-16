@@ -48,10 +48,10 @@ userRouter.post("/signin", async (req, res) => {
 
         const user = await UserModel.findOne({ username: username });
         if (!user) {
-            return res.status(400).json({ msg: "Please signup first!" });
+            return res.status(404).json({ msg: "Please signup first!" });
         }
 
-        const passwordMatch = bcrypt.compare(password, user.password);
+        const passwordMatch = await bcrypt.compare(password, user.password);
 
         if (!passwordMatch) {
             return res.status(401).json({ msg: "Wrong username or Password!" });
