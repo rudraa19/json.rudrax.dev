@@ -20,6 +20,7 @@ const SignupForm = () => {
     const [username, setUsername] = useState();
     const [password, setPassword] = useState();
     const [isClicked, setIsClicked] = useState(false);
+    const [errMessage, setErrMessage] = useState("");
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -41,7 +42,17 @@ const SignupForm = () => {
             alert("Signup successful!");
             navigate("/login");
         } catch (err) {
-            alert("Error during signup: ", err);
+            if (err.response) {
+                if (err.response.status == 400) {
+                    setErrMessage("All fields are required!");
+                } else if (err.response.status == 409) {
+                    setErrMessage("User already exists!");
+                }
+            } else {
+                alert("Error during signup: " + err.message);
+            }
+            console.log(err.message)
+
         }
         setIsClicked(false);
     }
@@ -60,6 +71,9 @@ const SignupForm = () => {
             <CardContent>
                 <form>
                     <div className="flex flex-col gap-6">
+                        {errMessage && (
+                            <div className="text-red-500 text-sm">{errMessage}</div>
+                        )}
                         <div className="grid gap-2">
                             <Label htmlFor="email">Email</Label>
                             <Input
