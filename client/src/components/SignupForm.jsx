@@ -47,12 +47,13 @@ const SignupForm = () => {
                     setErrMessage("All fields are required!");
                 } else if (err.response.status == 409) {
                     setErrMessage("User already exists!");
+                } else {
+                    setErrMessage("Something went wrong. Please try again later!");
                 }
             } else {
                 alert("Error during signup: " + err.message);
             }
             console.log(err.message)
-
         }
         setIsClicked(false);
     }

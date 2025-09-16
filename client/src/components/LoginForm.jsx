@@ -19,6 +19,7 @@ const LoginForm = () => {
     const [username, setUsername] = useState();
     const [password, setPassword] = useState();
     const [isClicked, setIsClicked] = useState(false);
+    const [errMessage, setErrMessage] = useState("");
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -40,7 +41,20 @@ const LoginForm = () => {
             alert("Login successful!");
             navigate("/");
         } catch (err) {
-            alert("Erro during login: ", err);
+            if (err.response) {
+                if (err.response.status == 400) {
+                    setErrMessage("All fields are required!");
+                } else if (err.response.status == 404) {
+                    setErrMessage("Please signup first!");
+                } else if (err.response.status == 401) {
+                    setErrMessage("Wrong username or Password!");
+                } else {
+                    setErrMessage("Something went wrong. Please try again later!");
+                }
+            } else {
+                alert("Error during signup: " + err.message);
+            }
+            console.log(err.message)
         }
         setIsClicked(false);
     }
@@ -59,6 +73,9 @@ const LoginForm = () => {
             <CardContent>
                 <form>
                     <div className="flex flex-col gap-6">
+                        {errMessage && (
+                            <div className="text-red-500 text-sm">{errMessage}</div>
+                        )}
                         <div className="grid gap-2">
                             <Label htmlFor="username">Username</Label>
                             <Input
