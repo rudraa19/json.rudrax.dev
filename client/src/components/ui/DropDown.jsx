@@ -30,7 +30,7 @@ export function UserDropdown({ username = "Loading..." }) {
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
                 <DropdownMenuSeparator />
-                <DropdownMenuItem>GitHub</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => window.open("https://github.com/rudraa19/json.rudrax.dev/", "_blank")}>GitHub</DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={() => {
                     localStorage.removeItem('token');
