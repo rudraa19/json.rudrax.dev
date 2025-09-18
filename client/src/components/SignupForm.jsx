@@ -83,6 +83,7 @@ const SignupForm = () => {
                                 onInput={e => setEmail(e.target.value)}
                                 placeholder="email@example.com"
                                 required
+                                autoFocus
                             />
                         </div>
                         <div className="grid gap-2">

@@ -84,6 +84,7 @@ const LoginForm = () => {
                                 onInput={e => setUsername(e.target.value)}
                                 placeholder="user123"
                                 required
+                                autoFocus
                             />
                         </div>
                         <div className="grid gap-2">
