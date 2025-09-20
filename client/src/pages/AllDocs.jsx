@@ -2,6 +2,7 @@ import DocCard from "@/components/DocCard";
 import { client } from "../../config";
 import { useEffect, useState } from "react";
 import { useToken } from "@/utils/useToken";
+import { Link } from "react-router-dom";
 
 const AllDocs = () => {
 
@@ -42,9 +43,9 @@ const AllDocs = () => {
 
     return (
         <div className="flex flex-col items-center w-full">
-            {docs.map((doc) => (
+            {docs.length > 0 ? docs.map((doc) => (
                 <DocCard id={doc.docId} name={doc.name} key={doc.docId} />
-            ))}
+            )) : <p>You don’t have any documents yet. <Link to="/new" className="font-bold underline">Create a new document</Link> to get started.</p>}
         </div>
     );
 }
