@@ -7,6 +7,7 @@ import Document from './pages/Document'
 import AllDocs from './pages/AllDocs'
 import HomePage from './pages/HomePage'
 import NewDoc from './pages/NewDoc'
+import NotFound from './pages/NotFound'
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route path='/new' element={<NewDoc />}></Route>
           <Route path='/docs/:id' element={<Document />}></Route>
           <Route path='/docs' element={<AllDocs />}></Route>
+          <Route path='*' element={<NotFound />}></Route>
         </Route>
         <Route path='/login' element={<Login />}></Route>
         <Route path='/signup' element={<Signup />}></Route>

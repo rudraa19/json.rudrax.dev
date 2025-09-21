@@ -6,7 +6,7 @@ import "ace-builds/src-noconflict/mode-json";
 import "ace-builds/src-noconflict/theme-eclipse";
 import { API_URL, client } from "../../config";
 import { useToken } from "@/utils/useToken";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 ace.config.setModuleUrl(
     "ace/mode/json_worker",
@@ -20,6 +20,7 @@ const Document = () => {
     const [isEditingTitle, setIsEditingTitle] = useState(false);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const token = useToken();
+    const navigate = useNavigate();
 
     useEffect(() => {
         async function fetchUser() {
@@ -46,7 +47,11 @@ const Document = () => {
                 setJsonData(res.data.content);
             } catch (err) {
                 console.error(err);
-                alert("Failed to fetch document for editor");
+                if (err.response.status == 400) {
+                    navigate('/404');
+                } else {
+                    alert("Failed to fetch document for editor");
+                }
             }
         }
 
