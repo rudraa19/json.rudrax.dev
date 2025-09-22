@@ -8,7 +8,7 @@ const AllDocs = () => {
 
     const token = useToken();
     const [loggedIn, setIsLoggedIn] = useState();
-    const [docs, setDocs] = useState([]);
+    const [docs, setDocs] = useState(null);
 
     useEffect(() => {
         async function fetchUser() {
@@ -35,6 +35,7 @@ const AllDocs = () => {
             } catch (err) {
                 console.log(err);
                 alert("Error loading docs: ", err);
+                setDocs([]);
             }
         }
         fetchUser();
@@ -43,9 +44,21 @@ const AllDocs = () => {
 
     return (
         <div className="flex flex-col items-center w-full">
-            {docs.length > 0 ? docs.map((doc) => (
-                <DocCard id={doc.docId} name={doc.name} key={doc.docId} />
-            )) : <p>You don’t have any documents yet. <Link to="/new" className="font-bold underline">Create a new document</Link> to get started.</p>}
+            {docs === null ? (
+                <p>Loading your documents...</p>
+            ) : docs.length > 0 ? (
+                docs.map((doc) => (
+                    <DocCard id={doc.docId} name={doc.name} key={doc.docId} />
+                ))
+            ) : (
+                <p>
+                    You don’t have any documents yet.{" "}
+                    <Link to="/new" className="font-bold underline">
+                        Create a new document
+                    </Link>{" "}
+                    to get started.
+                </p>
+            )}
         </div>
     );
 }
