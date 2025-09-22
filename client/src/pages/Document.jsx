@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { Button } from "../components/ui/button";
 import AceEditor from "react-ace";
 import ace from "ace-builds/src-noconflict/ace";
@@ -7,6 +7,7 @@ import "ace-builds/src-noconflict/theme-eclipse";
 import { API_URL, client } from "../../config";
 import { useToken } from "@/utils/useToken";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import { Tooltip, TooltipContent, TooltipTrigger } from "../components/ui/tooltip";
 
 ace.config.setModuleUrl(
     "ace/mode/json_worker",
@@ -21,6 +22,40 @@ const Document = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const token = useToken();
     const navigate = useNavigate();
+
+    // Save document
+    const handleSave = useCallback(async () => {
+        try {
+            const parsed = JSON.parse(jsonData);
+
+            await client.patch(`/v1/docs/${docId}`, {
+                docName: title,
+                content: JSON.stringify(parsed, null, 2),
+            }, {
+                headers: { token },
+            });
+
+            alert("Document saved!");
+            window.location.reload();
+        } catch (e) {
+            alert("Invalid JSON: " + e.message);
+        }
+    }, [jsonData, title, docId, token]);
+
+    // Keyboard shortcut: Ctrl+S / Cmd+S
+    useEffect(() => {
+        const handleKeyDown = (e) => {
+            if ((e.ctrlKey || e.metaKey) && e.key === "s") {
+                e.preventDefault();
+                handleSave();
+            }
+        };
+
+        window.addEventListener("keydown", handleKeyDown);
+        return () => {
+            window.removeEventListener("keydown", handleKeyDown);
+        };
+    }, [handleSave]);
 
     useEffect(() => {
         async function fetchUser() {
@@ -58,25 +93,6 @@ const Document = () => {
         fetchUser();
         fetchDocument();
     }, []);
-
-    // Save document
-    const handleSave = async () => {
-        try {
-            const parsed = JSON.parse(jsonData);
-
-            await client.patch(`/v1/docs/${docId}`, {
-                docName: title,
-                content: JSON.stringify(parsed, null, 2),
-            }, {
-                headers: { token }
-            });
-
-            alert("Document saved!");
-            window.location.reload();
-        } catch (e) {
-            alert("Invalid JSON: " + e.message);
-        }
-    };
 
     return (
         <div className="flex flex-col gap-4 max-w-6xl mx-auto">
@@ -125,9 +141,16 @@ const Document = () => {
             />
 
             {/* Save button */}
-            <Button onClick={handleSave} className="self-start">
-                Save
-            </Button>
+            <Tooltip>
+                <TooltipTrigger asChild>
+                    <Button onClick={handleSave} className="self-start">
+                        Save
+                    </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                    <p>Ctrl + S</p>
+                </TooltipContent>
+            </Tooltip>
 
             <div>
                 This doc is available at: <a className="underline font-medium" href={`${API_URL}v1/docs/${docId}`} target="_blank">{`${API_URL}v1/docs/${docId}`}</a>
