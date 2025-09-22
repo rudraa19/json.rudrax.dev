@@ -20,11 +20,21 @@ const Document = () => {
     const [title, setTitle] = useState();
     const [isEditingTitle, setIsEditingTitle] = useState(false);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [isClicked, setIsClicked] = useState(false);
     const token = useToken();
     const navigate = useNavigate();
 
+    useEffect(() => {
+        if (isClicked) {
+            document.body.style.cursor = "wait";
+        } else {
+            document.body.style.cursor = "inherit";
+        }
+    }, [isClicked])
+
     // Save document
     const handleSave = useCallback(async () => {
+        setIsClicked(true);
         try {
             const parsed = JSON.parse(jsonData);
 
@@ -40,6 +50,7 @@ const Document = () => {
         } catch (e) {
             alert("Invalid JSON: " + e.message);
         }
+        setIsClicked(false);
     }, [jsonData, title, docId, token]);
 
     // Keyboard shortcut: Ctrl+S / Cmd+S
@@ -143,7 +154,7 @@ const Document = () => {
             {/* Save button */}
             <Tooltip>
                 <TooltipTrigger asChild>
-                    <Button onClick={handleSave} className="self-start">
+                    <Button onClick={handleSave} style={{ opacity: isClicked ? 0.5 : 1 }} className="self-start">
                         Save
                     </Button>
                 </TooltipTrigger>
